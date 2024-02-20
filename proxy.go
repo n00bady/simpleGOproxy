@@ -20,10 +20,10 @@ func main() {
 		Addr: ":1337",
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.Method == http.MethodConnect {
-                log.Println("Handleing Tunneling to: ", r.URL)
-                handleTunneling(w, r)
+				log.Println("Handleing Tunneling to: ", r.URL)
+				handleTunneling(w, r)
 			} else {
-                log.Println("Handling simple request to: ", r.URL)
+				log.Println("Handling simple request to: ", r.URL)
 				handleSimpleHttp(w, r)
 			}
 		}),
@@ -57,18 +57,19 @@ func handleSimpleHttp(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleTunneling(w http.ResponseWriter, r *http.Request) {
-	destConn, err := net.DialTimeout("tcp", r.Host, 10*time.Second)
+	destConn, err := net.DialTimeout("tcp", r.Host, 5*time.Second)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 
-	w.WriteHeader(http.StatusOK)
-    // Check if we can take over the connection
+    w.WriteHeader(http.StatusOK)
+	// Check if we can take over the connection
 	hijacker, ok := w.(http.Hijacker)
 	if !ok {
 		http.Error(w, "Hijacking not supported!", http.StatusInternalServerError)
 		return
 	}
+
 	clientConn, _, err := hijacker.Hijack()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
