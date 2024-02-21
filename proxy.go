@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io"
 	"log"
 	"net"
@@ -11,10 +10,7 @@ import (
 
 var httpTransport = http.DefaultTransport
 
-func main() {
-	fmt.Println("\t>>> SimpleGoProxy >>>")
-	fmt.Println()
-
+func StartProxy() {
 	// "custom" server that handles differently simple http requests and https
 	server := http.Server{
 		Addr: ":1337",
