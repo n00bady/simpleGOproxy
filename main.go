@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"log"
+
+	simp "github.com/n00bady/simpleGOproxy/simpleHTTPServer"
 )
 
 func main() {
@@ -14,6 +16,8 @@ func main() {
 
 	if *reverse {
 		log.Println("Staring the test http server...")
+        go simp.StartBackendServer()
+        log.Println("Starting reverse proxy...")
 		StartReverseProxy()
 	} else {
 		log.Println("Starting proxy...")

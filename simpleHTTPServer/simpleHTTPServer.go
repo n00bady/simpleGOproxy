@@ -7,7 +7,7 @@ import (
 )
 
 func StartBackendServer() {
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    http.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
         io.WriteString(w, "Hello there !")
     })
 
